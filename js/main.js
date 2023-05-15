@@ -1,35 +1,5 @@
-function escogerPelicula() {
-  let peliculaEscogida;
-  do {
-    peliculaEscogida =
-      prompt(`Bienvenido a Cines Unidos. Las entradas tienen un valor de $1300. Por favor coloque según el número la película que desee ver:
-    1. Harry Potter y la Piedra Filosofal
-    2. Harry Potter y la Cámara Secreta
-    3. Harry Potter y el Prisionero de Azkaban
-    4. Harry Potter y el Cáliz de Fuego
-    5. Harry Potter y la Orden del Fénix
-    6. Harry Potter y el Príncipe Mestizo
-    7. Harry Potter y las Reliquias de la Muerte: Parte 1
-    8. Harry Potter y las Reliquias de la Muerte: Parte 2`);
-
-    if (
-      isNaN(peliculaEscogida) ||
-      peliculaEscogida === "" ||
-      parseInt(peliculaEscogida) < 1 ||
-      parseInt(peliculaEscogida) > 8
-    ) {
-      alert("Debes introducir un valor numérico entre 1 y 8.");
-    }
-  } while (
-    isNaN(peliculaEscogida) ||
-    peliculaEscogida === "" ||
-    parseInt(peliculaEscogida) < 1 ||
-    parseInt(peliculaEscogida) > 8
-  );
-
-  peliculaEscogida = parseInt(peliculaEscogida);
-
-  switch (peliculaEscogida) {
+function validarPelicula(pelicula) {
+  switch (pelicula) {
     case 1:
       return "Harry Potter y la Piedra Filosofal";
     case 2:
@@ -49,6 +19,41 @@ function escogerPelicula() {
   }
 }
 
+function escogerPelicula() {
+  let peliculaEscogida;
+  let seleccionNoValida = true;
+  do {
+    peliculaEscogida =
+      prompt(`Bienvenido a Cines Unidos. Las entradas tienen un valor de $1300. Por favor coloque según el número la película que desee ver:
+    1. Harry Potter y la Piedra Filosofal
+    2. Harry Potter y la Cámara Secreta
+    3. Harry Potter y el Prisionero de Azkaban
+    4. Harry Potter y el Cáliz de Fuego
+    5. Harry Potter y la Orden del Fénix
+    6. Harry Potter y el Príncipe Mestizo
+    7. Harry Potter y las Reliquias de la Muerte: Parte 1
+    8. Harry Potter y las Reliquias de la Muerte: Parte 2`);
+
+    seleccionNoValida =
+      isNaN(peliculaEscogida) ||
+      peliculaEscogida === "" ||
+      parseInt(peliculaEscogida) < 1 ||
+      parseInt(peliculaEscogida) > 8;
+
+    if (seleccionNoValida) {
+      alert("Debes introducir un valor numérico entre 1 y 8.");
+    }
+  } while (seleccionNoValida);
+
+  return validarPelicula(parseInt(peliculaEscogida));
+}
+
+function validarSeleccionSiNo(opcion) {
+  return (
+    opcion.toLocaleLowerCase() !== "si" && opcion.toLocaleLowerCase() !== "no"
+  );
+}
+
 function desearBebida() {
   let quererBebida;
 
@@ -57,16 +62,10 @@ function desearBebida() {
       `¿Desea añadir una bebida a su pedido? Tiene un valor de $650 (Si/No)`
     );
 
-    if (
-      quererBebida.toLocaleLowerCase() !== "si" &&
-      quererBebida.toLocaleLowerCase() !== "no"
-    ) {
+    if (validarSeleccionSiNo(quererBebida)) {
       alert(`Por favor ingrese "Si" o "No"`);
     }
-  } while (
-    quererBebida.toLocaleLowerCase() !== "si" &&
-    quererBebida.toLocaleLowerCase() !== "no"
-  );
+  } while (validarSeleccionSiNo(quererBebida));
 
   if (quererBebida.toLocaleLowerCase() === "si") {
     return 650;
@@ -83,16 +82,10 @@ function desearGolosina() {
       `¿Desea añadir una golosina a su pedido? Tiene un valor de $800 (Si/No)`
     );
 
-    if (
-      quererGolosina.toLocaleLowerCase() !== "si" &&
-      quererGolosina.toLocaleLowerCase() !== "no"
-    ) {
+    if (validarSeleccionSiNo(quererGolosina)) {
       alert(`Por favor ingrese "Si" o "No"`);
     }
-  } while (
-    quererGolosina.toLocaleLowerCase() !== "si" &&
-    quererGolosina.toLocaleLowerCase() !== "no"
-  );
+  } while (validarSeleccionSiNo(quererGolosina));
 
   if (quererGolosina.toLocaleLowerCase() === "si") {
     return 800;
@@ -103,15 +96,18 @@ function desearGolosina() {
 
 function ingresarCodigoDescuento(codigoDescuento) {
   let codigoUsuario;
+  let formatoInvalido = true;
   do {
     codigoUsuario = prompt(
       `¿Tienes el código de descuento? Sí es así por favor ingresa y tendrá un 15% de descuento en su compra total (El código solo es de formato numérico)`
     );
 
-    if (isNaN(codigoUsuario) || codigoUsuario === "") {
+    formatoInvalido = isNaN(codigoUsuario) || codigoUsuario === "";
+
+    if (formatoInvalido) {
       alert("Debes introducir un valor numérico para el código");
     }
-  } while (isNaN(codigoUsuario) || codigoUsuario === "");
+  } while (formatoInvalido);
 
   if (codigoDescuento === parseInt(codigoUsuario)) {
     alert("¡Felicidades! Tendrá un 15% de descuento al final de su compra");
@@ -125,9 +121,13 @@ function ingresarCodigoDescuento(codigoDescuento) {
 function darTotal(pelicula, bebida, golosina, tieneCodigo) {
   let valorPelicula = 0;
   let descuento = 1;
+
+  //Checa si el usuario tiene descuento aplicado
   if (tieneCodigo) {
     descuento = 0.85;
   }
+
+  //Checa si el usuarió escogió una pelídula
   if (pelicula !== "") {
     valorPelicula = 1300;
   }
@@ -151,6 +151,14 @@ function menu() {
 
   let opcion;
 
+  let seleccionInvalida = true;
+
+  let permanecerEnMenu =
+    isNaN(opcion) ||
+    opcion === "" ||
+    parseInt(opcion) < 5 ||
+    parseInt(opcion) > 5;
+
   do {
     opcion = prompt(`Bienvenido a Cines Unidos. ¿Qué desea hacer?
       1. Escoger película
@@ -159,12 +167,19 @@ function menu() {
       4. Ingresar código de descuento
       5. Salir (Ver valor total de todo)`);
 
-    if (
+    seleccionInvalida =
       isNaN(opcion) ||
       opcion === "" ||
       parseInt(opcion) < 1 ||
-      parseInt(opcion) > 5
-    ) {
+      parseInt(opcion) > 5;
+
+    permanecerEnMenu =
+      isNaN(opcion) ||
+      opcion === "" ||
+      parseInt(opcion) < 5 ||
+      parseInt(opcion) > 5;
+
+    if (seleccionInvalida) {
       alert("Debes introducir un valor numérico entre 1 y 5.");
     } else {
       if (parseInt(opcion) === 1) {
@@ -179,12 +194,7 @@ function menu() {
         darTotal(peliculaAVer, bebida, golosina, tieneCodigo);
       }
     }
-  } while (
-    isNaN(opcion) ||
-    opcion === "" ||
-    parseInt(opcion) < 5 ||
-    parseInt(opcion) > 5
-  );
+  } while (permanecerEnMenu);
 }
 
 menu();
