@@ -122,12 +122,10 @@ function darTotal(pelicula, bebida, golosina, tieneCodigo) {
   let valorPelicula = 0;
   let descuento = 1;
 
-  //Checa si el usuario tiene descuento aplicado
   if (tieneCodigo) {
     descuento = 0.85;
   }
 
-  //Checa si el usuarió escogió una pelídula
   if (pelicula !== "") {
     valorPelicula = 1300;
   }
@@ -140,61 +138,48 @@ function darTotal(pelicula, bebida, golosina, tieneCodigo) {
   ¡Muchas gracias por comprar en Cines Unidos`);
 }
 
-function menu() {
-  //Variables y constantes
-  let peliculaAVer = "";
-  let golosina = 0;
-  let bebida = 0;
-  //Código que si la persona tiene se le dará un 15% de descuento al valor total;
-  let codigoDescuento = 220995;
-  let tieneCodigo = false;
-
-  let opcion;
-
-  let seleccionInvalida = true;
-
-  let permanecerEnMenu =
+function generarExpresionValidacion(opcion, numeroMinimo, numeroMaximo) {
+  return (
     isNaN(opcion) ||
     opcion === "" ||
-    parseInt(opcion) < 5 ||
-    parseInt(opcion) > 5;
+    parseInt(opcion) < numeroMinimo ||
+    parseInt(opcion) > numeroMaximo
+  );
+}
 
-  do {
-    opcion = prompt(`Bienvenido a Cines Unidos. ¿Qué desea hacer?
+////////////////////////////////////////// ************************************ ///////////////////////////////////////////
+
+let peliculaAVer = "";
+let golosina = 0;
+let bebida = 0;
+let codigoDescuento = 220995;
+let tieneCodigo = false;
+let opcion;
+let seleccionInvalida = true;
+
+do {
+  opcion = prompt(`Bienvenido a Cines Unidos. ¿Qué desea hacer?
       1. Escoger película
       2. Añadir Bebida
       3. Añadir golosina
       4. Ingresar código de descuento
       5. Salir (Ver valor total de todo)`);
 
-    seleccionInvalida =
-      isNaN(opcion) ||
-      opcion === "" ||
-      parseInt(opcion) < 1 ||
-      parseInt(opcion) > 5;
+  seleccionInvalida = generarExpresionValidacion(opcion, 1, 5);
 
-    permanecerEnMenu =
-      isNaN(opcion) ||
-      opcion === "" ||
-      parseInt(opcion) < 5 ||
-      parseInt(opcion) > 5;
+  permanecerEnMenu = generarExpresionValidacion(opcion, 5, 5);
 
-    if (seleccionInvalida) {
-      alert("Debes introducir un valor numérico entre 1 y 5.");
-    } else {
-      if (parseInt(opcion) === 1) {
-        peliculaAVer = escogerPelicula();
-      } else if (parseInt(opcion) === 2) {
-        bebida = desearBebida();
-      } else if (parseInt(opcion) === 3) {
-        golosina = desearGolosina();
-      } else if (parseInt(opcion) === 4) {
-        tieneCodigo = ingresarCodigoDescuento(codigoDescuento);
-      } else if (parseInt(opcion) === 5) {
-        darTotal(peliculaAVer, bebida, golosina, tieneCodigo);
-      }
-    }
-  } while (permanecerEnMenu);
-}
-
-menu();
+  if (seleccionInvalida) {
+    alert("Debes introducir un valor numérico entre 1 y 5.");
+  } else if (parseInt(opcion) === 1) {
+    peliculaAVer = escogerPelicula();
+  } else if (parseInt(opcion) === 2) {
+    bebida = desearBebida();
+  } else if (parseInt(opcion) === 3) {
+    golosina = desearGolosina();
+  } else if (parseInt(opcion) === 4) {
+    tieneCodigo = ingresarCodigoDescuento(codigoDescuento);
+  } else if (parseInt(opcion) === 5) {
+    darTotal(peliculaAVer, bebida, golosina, tieneCodigo);
+  }
+} while (permanecerEnMenu);
