@@ -1,3 +1,12 @@
+function generarExpresionValidacion(opcion, numeroMinimo, numeroMaximo) {
+  return (
+    isNaN(opcion) ||
+    opcion === "" ||
+    parseInt(opcion) < numeroMinimo ||
+    parseInt(opcion) > numeroMaximo
+  );
+}
+
 function validarPelicula(pelicula) {
   switch (pelicula) {
     case 1:
@@ -34,13 +43,7 @@ function escogerPelicula() {
     7. Harry Potter y las Reliquias de la Muerte: Parte 1
     8. Harry Potter y las Reliquias de la Muerte: Parte 2`);
 
-    seleccionNoValida =
-      isNaN(peliculaEscogida) ||
-      peliculaEscogida === "" ||
-      parseInt(peliculaEscogida) < 1 ||
-      parseInt(peliculaEscogida) > 8;
-
-    if (seleccionNoValida) {
+    if (generarExpresionValidacion(peliculaEscogida, 1, 8)) {
       alert("Debes introducir un valor numérico entre 1 y 8.");
     }
   } while (seleccionNoValida);
@@ -136,15 +139,6 @@ function darTotal(pelicula, bebida, golosina, tieneCodigo) {
   ¿Tiene código de descuento? ${tieneCodigo}
   Valor total: ${(valorPelicula + bebida + golosina) * descuento}
   ¡Muchas gracias por comprar en Cines Unidos`);
-}
-
-function generarExpresionValidacion(opcion, numeroMinimo, numeroMaximo) {
-  return (
-    isNaN(opcion) ||
-    opcion === "" ||
-    parseInt(opcion) < numeroMinimo ||
-    parseInt(opcion) > numeroMaximo
-  );
 }
 
 ////////////////////////////////////////// ************************************ ///////////////////////////////////////////
