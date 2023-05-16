@@ -149,7 +149,8 @@ let bebida = 0;
 let codigoDescuento = 220995;
 let tieneCodigo = false;
 let opcion;
-let seleccionInvalida = true;
+let seleccionInvalida;
+let permanecerEnMenu;
 
 do {
   opcion = prompt(`Bienvenido a Cines Unidos. ¿Qué desea hacer?
