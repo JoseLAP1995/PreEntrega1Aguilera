@@ -46,7 +46,7 @@ function escogerPelicula() {
     if (generarExpresionValidacion(peliculaEscogida, 1, 8)) {
       alert("Debes introducir un valor numérico entre 1 y 8.");
     }
-  } while (seleccionNoValida);
+  } while (generarExpresionValidacion(peliculaEscogida, 1, 8));
 
   return validarPelicula(parseInt(peliculaEscogida));
 }
